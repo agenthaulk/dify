@@ -2723,10 +2723,11 @@ class TestWorkflowServiceFreeNodeExecution:
             service.validate_features_structure(app, features)
             mock_val.assert_called_once()
 
-    def test_validate_features_structure_invalid_mode(self, service: WorkflowService) -> None:
+    @pytest.mark.parametrize("invalid_mode", ["invalid", "workflow-ish", ""])
+    def test_validate_features_structure_invalid_mode(self, service: WorkflowService, invalid_mode: str) -> None:
         app = MagicMock()
-        app.mode = "invalid"
-        with pytest.raises(ValueError, match="Invalid app mode"):
+        app.mode = invalid_mode
+        with pytest.raises(ValueError, match=f"Invalid app mode: {invalid_mode}"):
             service.validate_features_structure(app, {})
 
     def test_validate_human_input_node_data_error(self, service: WorkflowService) -> None:

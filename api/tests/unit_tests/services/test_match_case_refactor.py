@@ -46,7 +46,7 @@ class TestAppModelConfigServiceMatchCase:
                 case AppMode.COMPLETION:
                     return "completion_validated"
                 case AppMode.WORKFLOW | AppMode.ADVANCED_CHAT | AppMode.CHANNEL | AppMode.RAG_PIPELINE:
-                    raise ValueError(f"Unsupported app mode for config validation: {app_mode}")
+                    raise ValueError(f"Invalid app mode: {app_mode}")
 
         return validate_configuration
 
@@ -64,22 +64,22 @@ class TestAppModelConfigServiceMatchCase:
 
     def test_workflow_mode_raises(self):
         svc = self._make_service()
-        with pytest.raises(ValueError, match="Unsupported app mode"):
+        with pytest.raises(ValueError, match="Invalid app mode"):
             svc(AppMode.WORKFLOW)
 
     def test_advanced_chat_mode_raises(self):
         svc = self._make_service()
-        with pytest.raises(ValueError, match="Unsupported app mode"):
+        with pytest.raises(ValueError, match="Invalid app mode"):
             svc(AppMode.ADVANCED_CHAT)
 
     def test_channel_mode_raises(self):
         svc = self._make_service()
-        with pytest.raises(ValueError, match="Unsupported app mode"):
+        with pytest.raises(ValueError, match="Invalid app mode"):
             svc(AppMode.CHANNEL)
 
     def test_rag_pipeline_mode_raises(self):
         svc = self._make_service()
-        with pytest.raises(ValueError, match="Unsupported app mode"):
+        with pytest.raises(ValueError, match="Invalid app mode"):
             svc(AppMode.RAG_PIPELINE)
 
     def test_all_modes_covered(self):

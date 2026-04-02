@@ -15,4 +15,4 @@ class AppModelConfigService:
             case AppMode.COMPLETION:
                 return CompletionAppConfigManager.config_validate(tenant_id, config)
             case AppMode.WORKFLOW | AppMode.ADVANCED_CHAT | AppMode.CHANNEL | AppMode.RAG_PIPELINE:
-                raise ValueError(f"Unsupported app mode for config validation: {app_mode}")
+                raise ValueError(f"Invalid app mode: {app_mode}")

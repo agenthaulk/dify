@@ -1428,6 +1428,8 @@ class WorkflowService:
                 )
             case AppMode.CHAT | AppMode.COMPLETION | AppMode.AGENT_CHAT | AppMode.CHANNEL | AppMode.RAG_PIPELINE:
                 raise ValueError(f"Invalid app mode: {app_model.mode}")
+            case _:
+                raise ValueError(f"Invalid app mode: {app_model.mode}")
 
     def _validate_human_input_node_data(self, node_data: dict) -> None:
         """

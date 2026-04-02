@@ -67,7 +67,10 @@ class TestAppModelConfigService:
             mock_chat_validate.assert_not_called()
             mock_agent_validate.assert_not_called()
 
-    def test_should_raise_value_error_when_app_mode_is_not_supported(self, mock_config_managers):
+    @pytest.mark.parametrize("unsupported_mode", [AppMode.WORKFLOW, AppMode.ADVANCED_CHAT, AppMode.CHANNEL, AppMode.RAG_PIPELINE])
+    def test_should_raise_value_error_when_app_mode_is_not_supported(
+        self, unsupported_mode, mock_config_managers
+    ):
         """Test unsupported app modes raise ValueError with the invalid mode in the message."""
         tenant_id = "tenant-123"
         config = {"temperature": 0.5}
@@ -76,11 +79,11 @@ class TestAppModelConfigService:
         mock_agent_validate = mock_config_managers["agent"]
         mock_completion_validate = mock_config_managers["completion"]
 
-        with pytest.raises(ValueError, match=f"Invalid app mode: {AppMode.WORKFLOW}"):
+        with pytest.raises(ValueError, match=f"Invalid app mode: {unsupported_mode}"):
             AppModelConfigService.validate_configuration(
                 tenant_id=tenant_id,
                 config=config,
-                app_mode=AppMode.WORKFLOW,
+                app_mode=unsupported_mode,
             )
 
         mock_chat_validate.assert_not_called()
